@@ -1,0 +1,52 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  employee
+  admin
+}
+
+enum Activity {
+  checkIn
+  checkOut
+}
+
+model User {
+  id           Int        @id @unique @default(autoincrement())
+  name         String
+  username     String     @unique
+  password     String
+  departmentId Int
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  role         Role       @default(employee)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+  spending     Spending[]
+}
+
+model Department {
+  id        Int      @id @unique @default(autoincrement())
+  name      String   @unique
+  employee  User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Spending {
+  id         Int      @id @unique @default(autoincrement())
+  employeeId Int
+  date       DateTime
+  employee   User     @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  value      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
