@@ -12,6 +12,7 @@ import UserTable from "./table/user-table";
 import EditUser from "./form/edit";
 import UserRegister from "./form/register";
 import { useState } from "react";
+import Header from "../../components/Header";
 
 const Team = () => {
   const [form, setForm] = useState("table");

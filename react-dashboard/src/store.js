@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import axios from "axios";
 
+const baseUrl = "http://localhost:3001"
 const initialState = {
   user: {},
   allUsers: [],
@@ -22,7 +23,7 @@ export const store = create(
     fetchUser: async () => {
       try {
         set({ loading: true });
-        const { data } = await axios.post("http://localhost:3001/auth", {
+        const { data } = await axios.post(`${baseUrl}/auth`, {
           access_token: get().access_token,
         });
         set({ user: await data.user });
@@ -39,7 +40,7 @@ export const store = create(
     fetchAllUser: async () => {
       try {
         set({ loading: true });
-        const { data } = await axios.get("http://localhost:3001/user/getall");
+        const { data } = await axios.get(`${baseUrl}/user/getall`);
         set({ allUsers: await data });
         set({ valBySearch: await data });
         setTimeout(() => {
@@ -55,7 +56,7 @@ export const store = create(
       try {
         set({ loading: true });
         const { data } = await axios.get(
-          "http://localhost:3001/department/getall"
+          `${baseUrl}/department/getall`
         );
         set({ allDepartments: await data });
         setTimeout(() => {
@@ -71,7 +72,7 @@ export const store = create(
       try {
         set({ loading: true });
         const { data } = await axios.get(
-          "http://localhost:3001/spending/getall"
+          `${baseUrl}/spending/getall`
         );
         set({ allSpendings: await data });
         setTimeout(() => {
@@ -86,7 +87,7 @@ export const store = create(
     login: async (username, password) => {
       try {
         set({ loading: true });
-        const { data } = await axios.post("http://localhost:3001/user/login", {
+        const { data } = await axios.post(`${baseUrl}/user/login`, {
           username,
           password,
         });
@@ -112,7 +113,7 @@ export const store = create(
       try {
         set({ loading: true });
         const { data } = await axios.post(
-          "http://localhost:3001/user/register",
+          `${baseUrl}/user/register`,
           obj
         );
         if (data) {
@@ -134,7 +135,7 @@ export const store = create(
     deleteUser: async (id, role) => {
       try {
         set({ loading: true });
-        const { data } = await axios.post(`http://localhost:3001/user/delete`, {
+        const { data } = await axios.post(`${baseUrl}/user/delete`, {
           id,
           role,
         });
@@ -163,7 +164,7 @@ export const store = create(
     updateUser: async (obj, role) => {
       try {
         set({ loading: true });
-        const { data } = await axios.post(`http://localhost:3001/user/update`, {
+        const { data } = await axios.post(`${baseUrl}/user/update`, {
           data: obj,
           role,
         });
@@ -236,7 +237,7 @@ export const store = create(
       try {
         set({ loading: true });
         const { data } = await axios.post(
-          "http://localhost:3001/department/create",
+          `${baseUrl}/department/create`,
           obj
         );
         if (data) {
@@ -257,7 +258,7 @@ export const store = create(
     updateDept: async (obj, role) => {
       try {
         set({ loading: true });
-        const { data } = await axios.post(`http://localhost:3001/department/update`, {
+        const { data } = await axios.post(`${baseUrl}/department/update`, {
           data: obj,
           role,
         });
@@ -294,7 +295,7 @@ export const store = create(
     deleteDept: async (id, role) => {
       try {
         set({ loading: true });
-        const { data } = await axios.post(`http://localhost:3001/department/delete`, {
+        const { data } = await axios.post(`${baseUrl}/department/delete`, {
           id,
           role,
         });
